@@ -1,0 +1,11 @@
+script that checks if hussein and the prime time uploaded a new video
+saves the title and url on a DB(TBD)
+prints on a discrod server as a discord bot the url for the fetched videos
+maybe later takes in parameters to query all stored videos and filter by channel?
+
+make it rest AND graphql?
+
+------
+
+use typescript
+consume youtubes api
