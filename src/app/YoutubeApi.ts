@@ -16,8 +16,8 @@ class YoutubeApi{
   }
 
   // Returns the latest video given a channel id
-  public async getLatestVideo(channelId: string) {
-    const url = `${this.baseUrl}&channelId=${channelId}&maxResults=3&key=${this.YOUTUBE_API_KEY}`
+  public async getLatestVideo(channelId: string, minDate: string) {
+    const url = `${this.baseUrl}&channelId=${channelId}&maxResults=4&order=date&publishedAfter=${minDate}&key=${this.YOUTUBE_API_KEY}`
     return await this.makeHttpRequest(url)
   }
 
