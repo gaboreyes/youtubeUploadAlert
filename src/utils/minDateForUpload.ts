@@ -1,6 +1,6 @@
 import {DateTime} from 'luxon';
 
-function getMinDateForUpload(){
+function getMinUploadDate(){
   let todaysDate = DateTime.utc()
   let minDate = todaysDate.minus({ days: 14 });
   const month = minDate.month.toString().length > 1 ? minDate.month : `0${minDate.month}`
@@ -11,4 +11,4 @@ function getMinDateForUpload(){
   return `${minDate.year}-${month}-${day}T${hour}%3A${minutes}%3A${seconds}Z`
 }
 
-export {getMinDateForUpload}
+export { getMinUploadDate }
