@@ -12,17 +12,20 @@ const YoutubeResultSchema = new Schema({
   videoTitle: {
     type: String,
     required: true,
-    lowercase: true
   },
-  createdAt: {
-    type: Date,
-    default: Date.now()
+  videoUrl: {
+    type: String,
+    required: true,
   },
-  updatedAt: {
-    type: Date,
-    default: Date.now()
+  channelId: {
+    type: String,
+    required: true
+  },
+  channelTitle: {
+    type: String,
+    required: true,
   }
-}, { collection: 'YoutubeResults' });
+}, { collection: 'YoutubeResults', timestamps: true });
 
 const YoutubeResult = mongoose.model('YoutubeResult', YoutubeResultSchema);
 

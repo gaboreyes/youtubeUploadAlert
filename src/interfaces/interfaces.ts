@@ -16,6 +16,7 @@ interface IYoutubeVideo {
 interface IVideoToBeStored {
   videoId: string;
   videoTitle: string;
+  videoUrl: string;
   channelId: string;
   channelTitle: string;
 }

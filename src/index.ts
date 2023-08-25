@@ -4,6 +4,7 @@ import { DatabaseApi } from "./app/DatabaseApi.ts";
 import { getMinUploadDate } from './utils/minDateForUpload.ts';
 import { getLatestVideo } from "./utils/getLatestVideo.ts";
 import { IVideoToBeStored } from "./interfaces/interfaces.ts";
+import { generateVideoUrl } from "./utils/generateVideoUrl.ts";
 
 async function main(){
   try {
@@ -15,6 +16,7 @@ async function main(){
       const minDate = getMinUploadDate()
       const videosResponse = await youtubeApi.getVideos(channelId, minDate)
       latestVideo = getLatestVideo(videosResponse)
+      latestVideo.videoUrl = generateVideoUrl(latestVideo.videoId)
     }
 
     if(process.env.ENABLE_CONNECTING_WITH_DB === 'true'){

@@ -4,6 +4,7 @@ function getLatestVideo(videoList: IYoutubeVideoList){
   let latestVideo: IVideoToBeStored = {
     videoId: null,
     videoTitle: null,
+    videoUrl: null,
     channelId: null,
     channelTitle: null
   };
