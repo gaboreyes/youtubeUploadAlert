@@ -8,4 +8,8 @@ make it rest AND graphql?
 ------
 
 use typescript
+make in class based
 consume youtubes api
+youtube api to fetch channel id using its name
+format date as needed in youtubes api
+youtube api to fetch latest video using channel id
