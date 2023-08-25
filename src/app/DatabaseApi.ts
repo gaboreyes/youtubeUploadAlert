@@ -1,6 +1,7 @@
 import "dotenv/config.js";
 import mongoose from 'mongoose';
 import { YoutubeResult } from "../models/YoutubeResult.ts";
+import { IVideoToBeStored } from "../interfaces/interfaces.ts";
 
 class DatabaseApi{
   private dbUser: string;
@@ -23,9 +24,9 @@ class DatabaseApi{
     }
   }
 
-  public async saveEntry(latestVideoResponse: any) {
+  public async saveEntry(latestVideo: IVideoToBeStored) {
     await this.stablishConnection()
-    const newYoutubeResult = new YoutubeResult(latestVideoResponse);
+    const newYoutubeResult = new YoutubeResult(latestVideo);
     const result = await newYoutubeResult.save();
     if(result._id){
       console.log('Entry saved sucessfully!')

@@ -17,12 +17,12 @@ class YoutubeApi{
     return channelIdResponse.items[0].snippet.channelId
   }
 
-  // Returns the latest video given a channel id
-  public async getLatestVideo(channelId: string, minDate: string) {
-    const url = `${this.baseUrl}&channelId=${channelId}&maxResults=1&order=date&publishedAfter=${minDate}&key=${this.YOUTUBE_API_KEY}`
-    const getLatestVideoResponse = await this.makeHttpRequest(url)
-    if(getLatestVideoResponse.error) throw new Error(getLatestVideoResponse.error.errors[0].message);
-    return { videoTitle: getLatestVideoResponse.items[0].snippet.title, videoId: getLatestVideoResponse.items[0].id.videoId }
+  // Returns a list of videos given a channel id
+  public async getVideos(channelId: string, minDate: string) {
+    const url = `${this.baseUrl}&channelId=${channelId}&maxResults=5&order=date&publishedAfter=${minDate}&key=${this.YOUTUBE_API_KEY}`
+    const getVideosResponse = await this.makeHttpRequest(url)
+    if(getVideosResponse.error) throw new Error(getVideosResponse.error.errors[0].message);
+    return getVideosResponse
   }
 
   private async makeHttpRequest(url: string) {
