@@ -1,19 +1,24 @@
 import "dotenv/config.js";
-import { YoutubeApi } from './app/YoutubeApi.ts'
-import { connectToMongoDb } from './utils/mongoDb.ts'
-import { getMinUploadDate } from './utils/minDateForUpload.ts'
+import { YoutubeApi } from './app/YoutubeApi.ts';
+import { DatabaseApi } from "./app/DatabaseApi.ts";
+import { getMinUploadDate } from './utils/minDateForUpload.ts';
 
 async function main(){
   try {
-    await connectToMongoDb(process.env.DATABASE_USER, process.env.DATABASE_PASSWORD, process.env.DATABASE_NAME)
+    let latestVideoResponse: any
     if(process.env.ENABLE_CALLING_YOUTUBE_API === 'true'){
       const youtubeApi = new YoutubeApi()
       const channelId = await youtubeApi.getChannelId('Hussein Nasser')
       const minDate = getMinUploadDate()
-      const latestVideoResponse = await youtubeApi.getLatestVideo(channelId, minDate)
-      console.log(latestVideoResponse)
+      latestVideoResponse = await youtubeApi.getLatestVideo(channelId, minDate)
     }
-    // TODO: Save this result to MongoDB
+
+    if(process.env.ENABLE_CONNECTING_WITH_DB === 'true'){
+      const databaseApi = new DatabaseApi()
+      await databaseApi.saveEntry(latestVideoResponse)
+      await databaseApi.closeConnection()
+    }
+
   } catch (error) {
     console.log(error)
   }
