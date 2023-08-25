@@ -13,3 +13,4 @@ consume youtubes api
 youtube api to fetch channel id using its name
 format date as needed in youtubes api
 youtube api to fetch latest video using channel id
+save data to mongodb to keep track of all the bot has done
