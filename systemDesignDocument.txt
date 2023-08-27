@@ -13,3 +13,10 @@ consume youtubes api
 youtube api to fetch channel id using its name
 format date as needed in youtubes api
 youtube api to fetch latest video using channel id
+fectching several videos because of how the youtube api works
+filter the newest one with ID and return it
+add interfaces to avoid using any as datatype for the videos
+save data to mongodb to keep track of all the bot has done
+add discord bot client
+connect with a discord server
+add discord slash commands
