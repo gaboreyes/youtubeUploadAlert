@@ -18,12 +18,15 @@ async function main(){
       latestVideo = getLatestVideo(videosResponse)
       latestVideo.videoUrl = generateVideoUrl(latestVideo.videoId)
     }
-
+    
     if(process.env.ENABLE_CONNECTING_WITH_DB === 'true'){
       const databaseApi = new DatabaseApi()
+      // TODO: Check if fetched videos are not inside database already
       await databaseApi.saveEntry(latestVideo)
       await databaseApi.closeConnection()
     }
+
+    // TODO: connect this with the discord bot somehow?
 
   } catch (error) {
     console.log(error)
