@@ -1,10 +1,11 @@
-import "dotenv/config.js";
 import { REST, Routes } from 'discord.js';
+import "dotenv/config.js";
 
-async function deployDiscordCommands(clientCommands: any){
+// TODO: Figure out how to setup a map type to refactor this ANY type
+async function deployCommands(clientCommands: any){
   const commands = [];
+  // Each command is an item from a map with [commandName, commandObject] and Each commandObject has attributes { data, execute }
   for (const command of clientCommands) {
-    // Each command is a list with [commandName, commandObject] and Each commandObject has attributes { data, execute }
     const commandObject = command[1]
     commands.push(commandObject.data.toJSON());
   }
@@ -15,14 +16,11 @@ async function deployDiscordCommands(clientCommands: any){
   // and deploy your commands given the guild id!
   try {
 		console.log(`Started refreshing ${commands.length} application (/) commands.`);
-
 		// The put method is used to fully refresh all commands in the guild with the current set
-		
     const data: any = await rest.put(
 			Routes.applicationGuildCommands(process.env.DISCORD_CLIENT_ID, process.env.DISCORD_GUILD_ID),
 			{ body: commands },
 		);
-
 		console.log(`Successfully reloaded ${data.length} application (/) commands.`);
 	} catch (error) {
 		// And of course, make sure you catch and log any errors!
@@ -30,7 +28,7 @@ async function deployDiscordCommands(clientCommands: any){
 	}
 }
 
-export { deployDiscordCommands }
+export { deployCommands };
 
 
 

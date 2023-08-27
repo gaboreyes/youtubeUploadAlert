@@ -1,10 +1,10 @@
 import "dotenv/config.js";
-import { YoutubeApi } from './app/YoutubeApi.ts';
 import { DatabaseApi } from "./app/DatabaseApi.ts";
-import { getMinUploadDate } from './utils/minDateForUpload.ts';
-import { getLatestVideo } from "./utils/getLatestVideo.ts";
+import { YoutubeApi } from './app/YoutubeApi.ts';
 import { IVideoToBeStored } from "./interfaces/interfaces.ts";
 import { generateVideoUrl } from "./utils/generateVideoUrl.ts";
+import { getLatestVideo } from "./utils/getLatestVideo.ts";
+import { getMinUploadDate } from './utils/minDateForUpload.ts';
 
 async function main(){
   try {
