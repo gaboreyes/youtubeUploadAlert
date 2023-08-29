@@ -21,4 +21,10 @@ interface IVideoToBeStored {
   channelTitle: string;
 }
 
-export { IYoutubeVideoList, IYoutubeVideo, IVideoToBeStored } 
+interface IDiscordCommandObjectData {
+  name: string;
+  description: string;
+  toJSON(): any;
+}
+
+export { IYoutubeVideoList, IYoutubeVideo, IVideoToBeStored, IDiscordCommandObjectData } 

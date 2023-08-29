@@ -26,8 +26,6 @@ async function main(){
       await databaseApi.closeConnection()
     }
 
-    // TODO: connect this with the discord bot somehow?
-
   } catch (error) {
     console.log(error)
   }

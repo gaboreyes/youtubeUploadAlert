@@ -14,7 +14,7 @@ class DatabaseApi{
     this.dbPassword = process.env.DATABASE_PASSWORD;
   }
 
-  private async stablishConnection() {
+  public async stablishConnection() {
     try {
       const connectionString = `mongodb+srv://${this.dbUser}:${this.dbPassword}@${this.dbName}.i25e8au.mongodb.net/${this.dbName}?retryWrites=true&w=majority`
       await mongoose.connect(connectionString);
@@ -24,16 +24,20 @@ class DatabaseApi{
     }
   }
 
+  public async findEntry(videoId: string) {
+    const result = await YoutubeResult.findOne({ videoId });
+    if(result) return true 
+    return false
+  }
+
   public async saveEntry(latestVideo: IVideoToBeStored) {
-    await this.stablishConnection()
     const newYoutubeResult = new YoutubeResult(latestVideo);
     const result = await newYoutubeResult.save();
-    if(result._id){
-      console.log('Entry saved sucessfully!')
-    }
+    if(result._id) console.log('Entry saved sucessfully!')
   }
 
   public async closeConnection() {
+    console.log('DB connection closed!')
     await mongoose.disconnect()
   }
 }
