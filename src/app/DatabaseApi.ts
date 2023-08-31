@@ -24,17 +24,28 @@ class DatabaseApi{
     }
   }
 
-  public async saveEntry(latestVideo: IVideoToBeStored) {
-    await this.stablishConnection()
-    const newYoutubeResult = new YoutubeResult(latestVideo);
-    const result = await newYoutubeResult.save();
-    if(result._id){
-      console.log('Entry saved sucessfully!')
-    }
+  public async findVideoGivenVideoId(videoId: string) {
+    return await YoutubeResult.findOne({ videoId });
   }
 
-  public async closeConnection() {
+  public async saveVideo(latestVideo: IVideoToBeStored) {
+    const newYoutubeResult = new YoutubeResult(latestVideo);
+    const result = await newYoutubeResult.save();
+    if(result._id) console.log('Entry saved sucessfully!')
+  }
+
+  private async closeConnection() {
+    console.log('DB connection closed!')
     await mongoose.disconnect()
+  }
+
+  public async insertVideoFlow(latestVideo: IVideoToBeStored) {
+    if(process.env.ENABLE_CONNECTING_WITH_DB === 'true' && latestVideo.videoUrl) {
+      const connection = await this.stablishConnection()
+      const result = await this.findVideoGivenVideoId(latestVideo.videoId)
+      if(!result) await this.saveVideo(latestVideo)
+      this.closeConnection()
+    }
   }
 }
 
