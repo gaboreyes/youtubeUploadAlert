@@ -24,14 +24,16 @@ class DatabaseApi{
     }
   }
 
-  public async findVideoGivenVideoId(videoId: string) {
-    return await YoutubeResult.findOne({ videoId });
+  public async findVideoGivenVideoId(videoId: string): Promise<IVideoToBeStored>{
+    const dbResponse = await YoutubeResult.findOne({ videoId });
+    return dbResponse
   }
 
   public async saveVideo(latestVideo: IVideoToBeStored) {
     const newYoutubeResult = new YoutubeResult(latestVideo);
     const result = await newYoutubeResult.save();
     if(result._id) console.log('Entry saved sucessfully!')
+    return result
   }
 
   private async closeConnection() {
