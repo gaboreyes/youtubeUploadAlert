@@ -1,4 +1,3 @@
-import "dotenv/config.js";
 import { DatabaseApi } from "./app/DatabaseApi.ts";
 import { YoutubeApi } from "./app/YoutubeApi.ts";
 

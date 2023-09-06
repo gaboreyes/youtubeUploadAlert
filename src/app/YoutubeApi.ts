@@ -3,7 +3,7 @@ import { DateTime } from 'luxon';
 import { IVideoToBeStored, IYoutubeVideo, IYoutubeVideoList } from "../interfaces/interfaces.ts";
 
 class YoutubeApi{
-  private baseUrl: string;
+  public baseUrl: string;
   private YOUTUBE_API_KEY: string;
 
   constructor() {
