@@ -5,12 +5,13 @@ import { YoutubeApi } from "./app/YoutubeApi.ts";
 async function main(){
   try {
     const youtubeApi = new YoutubeApi()
-    const latestVideo = await youtubeApi.getLatestVideoFlow()
+    const latestVideos = await youtubeApi.getLatestVideosFlow()
     const databaseApi = new DatabaseApi()
-    databaseApi.insertVideoFlow(latestVideo)
+    databaseApi.insertVideoFlow(latestVideos)
   } catch (error) {
     console.log(error)
   }
   console.log('...Finnishing main...')
 }
+
 main()

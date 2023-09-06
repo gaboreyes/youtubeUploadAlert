@@ -41,11 +41,21 @@ class DatabaseApi{
     await mongoose.disconnect()
   }
 
-  public async insertVideoFlow(latestVideo: IVideoToBeStored) {
-    if(process.env.ENABLE_CONNECTING_WITH_DB === 'true' && latestVideo.videoUrl) {
+  public async insertVideoFlow(latestVideoList: IVideoToBeStored[]) {
+    if(process.env.ENABLE_CONNECTING_WITH_DB === 'true') {
       const connection = await this.stablishConnection()
-      const result = await this.findVideoGivenVideoId(latestVideo.videoId)
-      if(!result) await this.saveVideo(latestVideo)
+
+      const findVideoPromises = []
+      const saveVideoPromises = []
+
+      for (let index = 0; index < latestVideoList.length; index++) {
+        findVideoPromises.push(this.findVideoGivenVideoId(latestVideoList[index].videoId))
+      }
+      const results = await Promise.all(findVideoPromises)
+      for (let index = 0; index < results.length; index++) {
+        if(!results[index]) saveVideoPromises.push(this.saveVideo(latestVideoList[index]))
+      }
+      await Promise.all(saveVideoPromises)
       this.closeConnection()
     }
   }

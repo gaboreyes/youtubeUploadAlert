@@ -70,17 +70,35 @@ class YoutubeApi{
     return `${minDate.year}-${month}-${day}T${hour}%3A${minutes}%3A${seconds}Z`
   }
 
-  public async getLatestVideoFlow() {
-    let latestVideo: IVideoToBeStored;
+  public async getLatestVideosFlow(): Promise<IVideoToBeStored[]> {
+    const latestVideosList: IVideoToBeStored[] = []
+
     if(process.env.ENABLE_CALLING_YOUTUBE_API === 'true'){
-      // TODO: make the channel name not be hardcoded, maybe a list of channels?
-      const channelId = await this.getChannelIdGivenChannelName('Hussein Nasser')
+      const channelList = ['Hussein Nasser', 'The PrimeTime']
       const minDate = this.getMinUploadDate()
-      const videosResponse = await this.getVideosGivenChannelId(channelId, minDate)
-      latestVideo = this.getLatestVideoFromVideoArray(videosResponse)
-      latestVideo.videoUrl = this.generateVideoUrl(latestVideo.videoId)
+      let latestVideo: IVideoToBeStored;
+      const channelVideosPromises = []
+      const channelIdPromises = []
+
+      // Run all promises to get the channel Id in parallel
+      for (let index = 0; index < channelList.length; index++) {
+        channelIdPromises.push(this.getChannelIdGivenChannelName(channelList[index]))
+      }
+      const channelIdList = await Promise.all(channelIdPromises)
+      
+      // Run all promises to get the list of videos from a channel in parallel
+      for (let index = 0; index < channelIdList.length; index++) {
+        channelVideosPromises.push(this.getVideosGivenChannelId(channelIdList[index], minDate))
+      }
+      const videosObjectList = await Promise.all(channelVideosPromises)
+      
+      videosObjectList.forEach(videosObject => {
+        latestVideo = this.getLatestVideoFromVideoArray(videosObject)
+        latestVideo.videoUrl = this.generateVideoUrl(latestVideo.videoId)
+        latestVideosList.push(latestVideo)
+      });
     }
-    return latestVideo
+    return latestVideosList
   }
 }
 
