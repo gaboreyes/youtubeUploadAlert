@@ -24,17 +24,40 @@ class DatabaseApi{
     }
   }
 
-  public async saveEntry(latestVideo: IVideoToBeStored) {
-    await this.stablishConnection()
-    const newYoutubeResult = new YoutubeResult(latestVideo);
-    const result = await newYoutubeResult.save();
-    if(result._id){
-      console.log('Entry saved sucessfully!')
-    }
+  public async findVideoGivenVideoId(videoId: string): Promise<IVideoToBeStored>{
+    const dbResponse = await YoutubeResult.findOne({ videoId });
+    return dbResponse
   }
 
-  public async closeConnection() {
+  public async saveVideo(latestVideo: IVideoToBeStored) {
+    const newYoutubeResult = new YoutubeResult(latestVideo);
+    const result = await newYoutubeResult.save();
+    if(result._id) console.log('Entry saved sucessfully!')
+    return result
+  }
+
+  private async closeConnection() {
+    console.log('DB connection closed!')
     await mongoose.disconnect()
+  }
+
+  public async insertVideoFlow(latestVideoList: IVideoToBeStored[]) {
+    if(process.env.ENABLE_CONNECTING_WITH_DB === 'true') {
+      const connection = await this.stablishConnection()
+
+      const findVideoPromises = []
+      const saveVideoPromises = []
+
+      for (let index = 0; index < latestVideoList.length; index++) {
+        findVideoPromises.push(this.findVideoGivenVideoId(latestVideoList[index].videoId))
+      }
+      const results = await Promise.all(findVideoPromises)
+      for (let index = 0; index < results.length; index++) {
+        if(!results[index]) saveVideoPromises.push(this.saveVideo(latestVideoList[index]))
+      }
+      await Promise.all(saveVideoPromises)
+      this.closeConnection()
+    }
   }
 }
 

@@ -17,6 +17,12 @@ fectching several videos because of how the youtube api works
 filter the newest one with ID and return it
 add interfaces to avoid using any as datatype for the videos
 save data to mongodb to keep track of all the bot has done
+mongodb because is easy to setup in a free cloud
 add discord bot client
 connect with a discord server
 add discord slash commands
+remove dummy slash commands
+refactor slash command to fetch videos using youtube api and store in database
+remove utils directory and relocate those functions under respective classes
+make fetching videos work out of a list of channels and not just 1
+add ci/cd github actions
