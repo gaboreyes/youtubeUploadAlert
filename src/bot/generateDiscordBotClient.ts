@@ -14,4 +14,4 @@ function generateDiscordBotClient(){
 	return client
 }
 
-export { generateDiscordBotClient }
+export { generateDiscordBotClient };
