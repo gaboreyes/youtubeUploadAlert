@@ -1,7 +1,8 @@
 import "dotenv/config.js";
 import mongoose from 'mongoose';
-import { YoutubeResult } from "../models/YoutubeResult.ts";
 import { IVideoToBeStored } from "../interfaces/interfaces.ts";
+import { YoutubeChannel } from "../models/YoutubeChannel.ts";
+import { YoutubeResult } from "../models/YoutubeResult.ts";
 
 class DatabaseApi{
   private dbUser: string;
@@ -59,6 +60,23 @@ class DatabaseApi{
       this.closeConnection()
     }
   }
+
+  public async updateWatchedChannels(channelsList: string[]) {
+    const connection = await this.stablishConnection()
+    const queryBuilder = (channelName: string) => {
+      return {
+        updateOne: {
+          filter: { channelName },
+          update: { beingWatched: true },
+          upsert: true,
+        }
+      }
+    }
+    const queryArray = channelsList.map(queryBuilder)
+    const bulkWriteResult = await YoutubeChannel.bulkWrite(queryArray);
+    this.closeConnection()
+    return bulkWriteResult
+  }
 }
 
-export { DatabaseApi }
+export { DatabaseApi };
