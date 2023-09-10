@@ -13,6 +13,11 @@ interface IYoutubeVideo {
   };
 }
 
+interface IYoutubeChannel {
+  readonly channelName: String,
+  readonly beingWatched: Boolean,
+}
+
 interface IDiscordCommandObjectEndpoint {
   id: string,
   application_id: string,
@@ -41,4 +46,11 @@ interface IDiscordCommandObjectData {
   toJSON(): any;
 }
 
-export { IYoutubeVideoList, IYoutubeVideo, IVideoToBeStored, IDiscordCommandObjectData, IDiscordCommandObjectEndpoint } 
+export { 
+  IYoutubeVideoList, 
+  IYoutubeVideo,
+  IVideoToBeStored,
+  IDiscordCommandObjectData,
+  IDiscordCommandObjectEndpoint,
+  IYoutubeChannel 
+} 
