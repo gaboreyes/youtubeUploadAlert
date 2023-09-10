@@ -70,11 +70,10 @@ class YoutubeApi{
     return `${minDate.year}-${month}-${day}T${hour}%3A${minutes}%3A${seconds}Z`
   }
 
-  public async getLatestVideosFlow(): Promise<IVideoToBeStored[]> {
+  public async getLatestVideosFlow(channelList: string[]): Promise<IVideoToBeStored[]> {
     const latestVideosList: IVideoToBeStored[] = []
 
     if(process.env.ENABLE_CALLING_YOUTUBE_API === 'true'){
-      const channelList = ['Hussein Nasser', 'The PrimeTime']
       const minDate = this.getMinUploadDate()
       let latestVideo: IVideoToBeStored;
       const channelVideosPromises = []
