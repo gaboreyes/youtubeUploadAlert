@@ -8,7 +8,7 @@ const command = {
   .addStringOption(option => option.setName('channels').setDescription('A comma-separated list of youtube channels to watch')),
 
   async execute(interaction: any) {
-    const hiddenResponse = false
+    const hiddenResponse = process.env.EPHEMERAL_REPLY === 'true' ? true : false
     const channels = interaction.options.getString('channels')
     const channelsList = channels.split(', ')
 
