@@ -15,8 +15,7 @@ async function main(){
   console.log('...Finnishing main...')
 }
 
-// TODO: make the channel list customizable via slash commands
-// TODO: make slash command for adding / removing channels from a space separated list
+// TODO: Refactor all places where database api is being use to call it using the singleton approach , also for youtube api??
 // TODO: Make the bot available to be invited to a channel?
 // TODO: How does it picks the credentials for the guild?
 // TODO: Make the bot listen for uploaded videos and trigger when a new one is detected?

@@ -5,6 +5,7 @@ import { YoutubeChannel } from "../models/YoutubeChannel.ts";
 import { YoutubeResult } from "../models/YoutubeResult.ts";
 
 class DatabaseApi{
+  static instance: DatabaseApi;
   private dbUser: string;
   private dbName: string;
   private dbPassword: string;
@@ -13,6 +14,13 @@ class DatabaseApi{
     this.dbUser = process.env.DATABASE_USER;
     this.dbName = process.env.DATABASE_NAME;
     this.dbPassword = process.env.DATABASE_PASSWORD;
+  }
+
+  static getInstance() {
+    if(!this.instance){
+      this.instance = new DatabaseApi()
+    }
+    return this.instance
   }
 
   private async stablishConnection() {
@@ -25,6 +33,11 @@ class DatabaseApi{
     }
   }
 
+  private async closeConnection() {
+    console.log('DB connection closed!')
+    await mongoose.disconnect()
+  }
+
   public async findVideoGivenVideoId(videoId: string): Promise<IVideoToBeStored>{
     const dbResponse = await YoutubeResult.findOne({ videoId });
     return dbResponse
@@ -35,11 +48,6 @@ class DatabaseApi{
     const result = await newYoutubeResult.save();
     if(result._id) console.log('Entry saved sucessfully!')
     return result
-  }
-
-  private async closeConnection() {
-    console.log('DB connection closed!')
-    await mongoose.disconnect()
   }
 
   public async insertVideoFlow(latestVideoList: IVideoToBeStored[]) {
@@ -59,6 +67,13 @@ class DatabaseApi{
       await Promise.all(saveVideoPromises)
       this.closeConnection()
     }
+  }
+
+  public async getWatchedChannels() {
+    const connection = await this.stablishConnection()
+    const getChannelsResult = await YoutubeChannel.find({ beingWatched: true });
+    this.closeConnection()
+    return getChannelsResult
   }
 
   public async updateWatchedChannels(channelsList: string[]) {
