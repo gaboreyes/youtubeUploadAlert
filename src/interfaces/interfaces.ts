@@ -13,6 +13,25 @@ interface IYoutubeVideo {
   };
 }
 
+interface IYoutubeChannel {
+  readonly channelName: String,
+  readonly beingWatched: Boolean,
+}
+
+interface IDiscordCommandObjectEndpoint {
+  id: string,
+  application_id: string,
+  version: string,
+  default_member_permissions?: any,
+  type: number,
+  name: string,
+  name_localizations?: any,
+  description: string,
+  description_localizations?: any,
+  guild_id: string,
+  nsfw: boolean
+}
+
 interface IVideoToBeStored {
   videoId: string;
   videoTitle: string;
@@ -27,4 +46,11 @@ interface IDiscordCommandObjectData {
   toJSON(): any;
 }
 
-export { IYoutubeVideoList, IYoutubeVideo, IVideoToBeStored, IDiscordCommandObjectData } 
+export { 
+  IYoutubeVideoList, 
+  IYoutubeVideo,
+  IVideoToBeStored,
+  IDiscordCommandObjectData,
+  IDiscordCommandObjectEndpoint,
+  IYoutubeChannel 
+} 
