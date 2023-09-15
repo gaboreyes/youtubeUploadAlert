@@ -14,8 +14,8 @@ interface IYoutubeVideo {
 }
 
 interface IYoutubeChannel {
-  readonly channelName: String,
-  readonly beingWatched: Boolean,
+  readonly channelName: string,
+  readonly beingWatched: boolean,
 }
 
 interface IDiscordCommandObjectEndpoint {

@@ -5,7 +5,7 @@ import { YoutubeApi } from "./app/YoutubeApi.ts";
 async function main(){
   try {
     const channelList = ['Hussein Nasser', 'The PrimeTime', 'Pelado nerd', 'Fireship']
-    const youtubeApi = new YoutubeApi()
+    const youtubeApi = YoutubeApi.getInstance()
     const latestVideos = await youtubeApi.getLatestVideosFlow(channelList)
     const databaseApi = new DatabaseApi()
     databaseApi.insertVideoFlow(latestVideos)
@@ -15,7 +15,8 @@ async function main(){
   console.log('...Finnishing main...')
 }
 
-// TODO: Refactor all places where database api is being use to call it using the singleton approach , also for youtube api??
+// TODO: Why on saving videos to DB it shows 2 connections?
+// TODO: Make the bot have some sort of session per GUILD ID, so that guild only fetches videos that it has added to the watch list
 // TODO: Make the bot available to be invited to a channel?
 // TODO: How does it picks the credentials for the guild?
 // TODO: Make the bot listen for uploaded videos and trigger when a new one is detected?
