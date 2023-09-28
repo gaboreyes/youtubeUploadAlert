@@ -25,4 +25,5 @@ remove dummy slash commands
 refactor slash command to fetch videos using youtube api and store in database
 remove utils directory and relocate those functions under respective classes
 make fetching videos work out of a list of channels and not just 1
+after doing research, concluded that listen continusly to uploads is not feasable with the current youtube API quota
 add ci/cd github actions
