@@ -15,9 +15,7 @@ async function main(){
   console.log('...Finnishing main...')
 }
 
-// TODO: Why on saving videos to DB it shows 2 connections?
+// TODO: Add a flow to make the bot work without a database connection
+// TODO: Add a command for continuous listening on to channels, use with caution it may consume the whole api quota real fast
 // TODO: Make the bot have some sort of session per GUILD ID, so that guild only fetches videos that it has added to the watch list
-// TODO: Make the bot available to be invited to a channel?
-// TODO: How does it picks the credentials for the guild?
-// TODO: Make the bot listen for uploaded videos and trigger when a new one is detected?
 main()
