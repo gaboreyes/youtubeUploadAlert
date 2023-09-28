@@ -12,17 +12,24 @@ const command = {
 
     const channelList: string[] = []
     const databaseApi = DatabaseApi.getInstance()
-    const watchedChannels: IYoutubeChannel[] = await databaseApi.getWatchedChannels()
-    watchedChannels.forEach(channel => {
-      channelList.push(channel.channelName)
-    });
+
+    if(process.env.ENABLE_CONNECTING_WITH_DB === 'true'){
+      const watchedChannels: IYoutubeChannel[] = await databaseApi.getWatchedChannels()
+      watchedChannels.forEach(channel => {
+        channelList.push(channel.channelName)
+      });
+    } else {
+      // TODO: Get the channels from a file?
+      // TODO: Write watched channels to a file?
+    }
 
     const youtubeApi = YoutubeApi.getInstance()
     const latestVideos = await youtubeApi.getLatestVideosFlow(channelList)
     for (let index = 0; index < latestVideos.length; index++) {
       await interaction.followUp({ content: latestVideos[index].videoUrl, ephemeral: hiddenResponse })
     }
-    databaseApi.insertVideoFlow(latestVideos)
+
+    if(process.env.ENABLE_CONNECTING_WITH_DB === 'true') databaseApi.insertVideoFlow(latestVideos)
   }
 }
 
