@@ -75,9 +75,10 @@ class DatabaseApi{
     return getChannelsResult
   }
 
-  public async updateWatchedChannels(channelsList: string[]) {
+  public async updateWatchedChannels(channelsList: string[], operation: string) {
     const connection = await this.stablishConnection()
-    const queryBuilder = (channelName: string) => {
+    
+    const watchQueryBuilder = (channelName: string) => {
       return {
         updateOne: {
           filter: { channelName },
@@ -86,7 +87,17 @@ class DatabaseApi{
         }
       }
     }
-    const queryArray = channelsList.map(queryBuilder)
+    
+    const removeQueryBuilder = (channelName: string) => {
+      return {
+        updateOne: {
+          filter: { channelName },
+          update: { beingWatched: false },
+        }
+      }
+    }
+
+    const queryArray = operation === 'remove' ? channelsList.map(removeQueryBuilder) : channelsList.map(watchQueryBuilder)
     const bulkWriteResult = await YoutubeChannel.bulkWrite(queryArray);
     this.closeConnection()
     return bulkWriteResult
